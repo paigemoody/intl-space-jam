@@ -1,5 +1,7 @@
 import requests
 import json
+import spotipy
+
 
 
 def get_current_lng_lat():
@@ -21,3 +23,12 @@ def get_current_lng_lat():
     longitude = current_data['iss_position']['latitude']
 
     return { timestamp : [ longitude, latitude ] }
+
+
+def get_spotify_data(name):
+    spotify = spotipy.Spotify()
+    results = spotify.search(q='artist:' + name, type='artist')
+    print(results)
+
+
+get_spotify_data("JoJo")
