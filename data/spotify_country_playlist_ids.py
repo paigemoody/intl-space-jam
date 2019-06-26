@@ -1,16 +1,4 @@
 from googlesearch import search
-# import beautifulsoup4
-
-spotify_country_playist_ids = {
-"Asia" : { "Japan" : {}, "Israel": {}, "Hong Kong": {}, "Indonesia": {}, "Malaysia": {}, "Philippines": {}, "Singapore": {}, "Taiwan": {}, "Thailand": {}, "Vietnam": {}, "India": {}},
-"Europe" :  {"Andorra": {}, "Austria": {}, "Belgium": {}, "Bulgaria": {}, "Cyprus": {}, "Czech Republic": {}, "Denmark": {}, "Estonia": {}, "Finland": {}, "France": {}, "Germany": {}, "Greece": {}, "Hungary": {}, "Iceland": {}, "Ireland": {}, "Italy": {}, "Latvia": {}, "Liechtenstein": {}, "Lithuania": {}, "Luxembourg": {}, "Malta": {}, "Monaco": {}, "Netherlands": {}, "Norway": {}, "Poland": {}, "Portugal": {}, "Romania": {}, "Slovakia": {}, "Spain": {}, "Sweden": {}, "Switzerland": {}, "Turkey": {}, "United Kingdom}": {}},
-"Latin America and  Caribbean ": { "Argentina": {}, "Bolivia": {}, "Brazil": {}, "Chile": {}, "Colombia": {}, "Costa Rica": {}, "Dominican Republic": {}, "Ecuador": {}, "El Salvador": {}, "Guatemala": {}, "Honduras": {}, "Mexico": {}, "Nicaragua": {}, "Panama": {}, "Paraguay": {}, "Peru": {}, "Uruguay": {}},
-"North America":  {"Canada": {}, "United States" : "37i9dQZEVXbMDoHDwVN2tF"},
-"Africa" : {"Algeria": {}, "Egypt": {}, "Morocco": {}, "South Africa": {}, "Tunisia": {}},
-"Oceania" : {"Australia": {}, "New Zealand": {}},
-"Middle East" : {"Bahrain": {}, "Jordan": {}, "Kuwait": {}, "Lebanon": {}, "Oman": {}, "Palestine": {}, "Qatar": {}, "Saudi Arabia": {}, "United Arab Emirates": {}}
-}
-
 
 
 
@@ -23,7 +11,7 @@ def get_country_playlist_url(country):
   
     # use google.com to get one result 
     # the result is a generator object, so we need to loop through it
-    for url in search(query, tld="com", num=1, stop=1, pause=2): 
+    for url in search(query, tld="com", num=1, stop=1, pause=4): 
 
         print(url)
 
@@ -31,11 +19,44 @@ def get_country_playlist_url(country):
 
         playlist_id = url_pieces[-1]
 
-        print(country, ":", playlist_id)
-
+        return {'url': url, 'playlist_id' : playlist_id}
         
 
 
-get_country_playlist_url("Japan")
+def build_url_playlist_id_to_dict():
+    """ Add url and playlist id for each country to spotify countries dict"""
+    spotify_country_playist_ids = {
+        "Asia" : { "Japan" : {}, "Israel": {}, "Hong Kong": {}, "Indonesia": {}, "Malaysia": {}, "Philippines": {}, "Singapore": {}, "Taiwan": {}, "Thailand": {}, "Vietnam": {}, "India": {}},
+        "Europe" :  {"Andorra": {}, "Austria": {}, "Belgium": {}, "Bulgaria": {}, "Cyprus": {}, "Czech Republic": {}, "Denmark": {}, "Estonia": {}, "Finland": {}, "France": {}, "Germany": {}, "Greece": {}, "Hungary": {}, "Iceland": {}, "Ireland": {}, "Italy": {}, "Latvia": {}, "Liechtenstein": {}, "Lithuania": {}, "Luxembourg": {}, "Malta": {}, "Monaco": {}, "Netherlands": {}, "Norway": {}, "Poland": {}, "Portugal": {}, "Romania": {}, "Slovakia": {}, "Spain": {}, "Sweden": {}, "Switzerland": {}, "Turkey": {}, "United Kingdom}": {}},
+        "Latin America and Caribbean ": { "Argentina": {}, "Bolivia": {}, "Brazil": {}, "Chile": {}, "Colombia": {}, "Costa Rica": {}, "Dominican Republic": {}, "Ecuador": {}, "El Salvador": {}, "Guatemala": {}, "Honduras": {}, "Mexico": {}, "Nicaragua": {}, "Panama": {}, "Paraguay": {}, "Peru": {}, "Uruguay": {}},
+        "North America":  {"Canada": {}, "United States" : "37i9dQZEVXbMDoHDwVN2tF"},
+        "Africa" : {"Algeria": {}, "Egypt": {}, "Morocco": {}, "South Africa": {}, "Tunisia": {}},
+        "Oceania" : {"Australia": {}, "New Zealand": {}},
+        "Middle East" : {"Bahrain": {}, "Jordan": {}, "Kuwait": {}, "Lebanon": {}, "Oman": {}, "Palestine": {}, "Qatar": {}, "Saudi Arabia": {}, "United Arab Emirates": {}}
+    }
+    
+    # loop over regions 
 
+    # loop over countries 
+
+    for region in spotify_country_playist_ids:
+        print(region)
+
+        for country in spotify_country_playist_ids[region]:
+            
+            print(country)
+            
+            country_data = get_country_playlist_url(country)
+
+            spotify_country_playist_ids[region][country]['url'] = country_data['url']
+
+            spotify_country_playist_ids[region][country]['playlist_id'] = country_data['playlist_id']
+
+            print(f"{country} : \{'url' : {url}, 'playlist_id': {playlist_id}\}")
+
+    return spotify_country_playist_ids
+
+
+
+print(build_url_playlist_id_to_dict())
 
