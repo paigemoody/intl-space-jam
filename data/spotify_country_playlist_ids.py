@@ -48,14 +48,14 @@ def build_url_playlist_id_to_dict():
                         
             country_data = get_country_playlist_url(country)
 
-            spotify_country_playist_ids[region][country]['url'] = country_data['url']
+            # spotify_country_playist_ids[region][country]['url'] = country_data['url']
 
-            spotify_country_playist_ids[region][country]['playlist_id'] = country_data['playlist_id']
+            # spotify_country_playist_ids[region][country]['playlist_id'] = country_data['playlist_id']
 
             left_curl = "{"
             right_curl = "}"
 
-            print(f" {left_curl} '{country}' : {left_curl} 'url' : '{country_data['url']}' , 'playlist_id': '{country_data['playlist_id']}' {right_curl}{right_curl},")
+            print(f" '{country}' : {left_curl} 'url' : '{country_data['url']}' , 'playlist_id': '{country_data['playlist_id']}' {right_curl},")
 
             print("\n")
 
