@@ -37,30 +37,42 @@ def get_current_lng_lat():
     return { timestamp : [ longitude, latitude ] }
 
 
-def get_spotify_data():
+def get_spotify_data(playlist_id):
 
-    top_US_playlist_id = '37i9dQZEVXbMDoHDwVN2tF'
+    top_playlist_id = playlist_id
     
-    results_US = spotify.search(q='playlist:' + top_US_playlist_id, type='playlist')
+    results = spotify.search(q='playlist:' + top_playlist_id, type='playlist')
 
-    owner_id_US= results_US['playlists']['items'][0]['owner']['id']
+    # print("results", results)
 
-    playlist_tracks_US = spotify.user_playlist_tracks(owner_id_US, top_US_playlist_id, fields='items,uri,name,id,total')
+    # owner_id= results['playlists']['items'][0]['owner']['id']
 
-    top_song_US_data = playlist_tracks_US['items'][0]
+    owner_id = "spotifycharts"
 
-    top_US_song_name = top_song_US_data['track']['name']
+    playlist_tracks = spotify.user_playlist_tracks(owner_id, top_playlist_id, fields='items,uri,name,id,total')
 
-    artists_data = top_song_US_data['track']['artists']
+    top_song_data = playlist_tracks['items'][0]
+
+    top_song_name = top_song_data['track']['name']
+
+    artists_data = top_song_data['track']['artists']
 
     artists_list = []
 
     for artist in artists_data:
         artists_list.append(artist['name'])
 
-    return( { top_US_song_name : artists_list } )
+    return( { top_song_name : artists_list } )
 
-print(get_spotify_data())
+print("Argentina:", get_spotify_data('37i9dQZEVXbMMy2roB9myp'))
+
+print("Egypt:", get_spotify_data('37i9dQZF1DX50MDbDwt4w8'))
+
+print("Tunisia:", get_spotify_data('37i9dQZF1DX9TaUKtmYQ2X'))
+
+print("Bahrain:", get_spotify_data('598uA4ClNJ0tGoAmrGTP2S'))
+
+
 
 
 
