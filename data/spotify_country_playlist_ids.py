@@ -29,12 +29,12 @@ def build_url_playlist_id_to_dict():
         # "Andorra": {}, "Austria": {}, "Belgium": {}, "Bulgaria": {}, "Cyprus": {}, "Czech Republic": {}, "Denmark": {}, "Estonia": {}, "Finland": {}, "France": {}, "Germany": {}, "Greece": {}, "Hungary": {}, "Iceland": {}, "Ireland": {}, 
         # "Italy": {}, "Latvia": {}, "Liechtenstein": {}, "Lithuania": {}, "Luxembourg": {}, "Malta": {}, "Monaco": {}, "Netherlands": {}, "Norway": {}, "Poland": {}, "Portugal": {}, "Romania": {}, "Slovakia": {}, "Spain": {}, "Sweden": {}, "Switzerland": {}, "Turkey": {}, "United Kingdom}": {}},
         # "Latin America and Caribbean ": { "Argentina": {}, "Bolivia": {}, "Brazil": {}, "Chile": {}, "Colombia": {}, "Costa Rica": {}, "Dominican Republic": {}, "Ecuador": {}, "El Salvador": {}, "Guatemala": {}, "Honduras": {}, "Mexico": {}, "Nicaragua": {}, "Panama": {}, "Paraguay": {}, "Peru": {}, "Uruguay": {}},
-        "North America":  { 
+        # "North America":  { 
         # "Canada": {}, 
-        "United States" : ""},
-        "Africa" : {"Algeria": {}, "Egypt": {}, "Morocco": {}, "South Africa": {}, "Tunisia": {}},
-        "Oceania" : {"Australia": {}, "New Zealand": {}},
-        "Middle East" : {"Bahrain": {}, "Jordan": {}, "Kuwait": {}, "Lebanon": {}, "Oman": {}, "Palestine": {}, "Qatar": {}, "Saudi Arabia": {}, "United Arab Emirates": {}}
+        # "United States" : ""},
+        # "Africa" : {"Algeria": {}, "Egypt": {}, "Morocco": {}, "South Africa": {}, "Tunisia": {}},
+        # "Oceania" : {"Australia": {}, "New Zealand": {}},
+        # "Middle East" : {"Bahrain": {}, "Jordan": {}, "Kuwait": {}, "Lebanon": {}, "Oman": {}, "Palestine": {}, "Qatar": {}, "Saudi Arabia": {}, "United Arab Emirates": {}}
     }
     
     # loop over regions 

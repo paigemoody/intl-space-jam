@@ -1,4 +1,4 @@
-"Asia" : {
+{"Asia" : {
  
   "Japan" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbKXQ4mDTEBXq" , "playlist_id": "37i9dQZEVXbKXQ4mDTEBXq" },
 
@@ -30,7 +30,7 @@
   "Vietnam" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbLdGSmz6xilI" , "playlist_id": "37i9dQZEVXbLdGSmz6xilI" },
 
 
-  "India" : { "url" : "https://open.spotify.com/user/sopgcbs63fn507qga340tl85f/playlist/24ToMDjkwvwWFhXQzrEydv" , "playlist_id": "24ToMDjkwvwWFhXQzrEydv" },
+  "India" : { "url" : "https://open.spotify.com/user/sopgcbs63fn507qga340tl85f/playlist/24ToMDjkwvwWFhXQzrEydv" , "playlist_id": "24ToMDjkwvwWFhXQzrEydv" }
 
 },
 
@@ -132,7 +132,7 @@
  "Turkey" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbIVYVBNw9D5K" , "playlist_id": "37i9dQZEVXbIVYVBNw9D5K" },
 
 
- "United Kingdom}" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbLnolsZ8PSNw" , "playlist_id": "37i9dQZEVXbLnolsZ8PSNw" },
+ "United Kingdom}" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbLnolsZ8PSNw" , "playlist_id": "37i9dQZEVXbLnolsZ8PSNw" }
 
 },
 
@@ -186,7 +186,7 @@
  "Peru" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbJfdy5b0KP7W" , "playlist_id": "37i9dQZEVXbJfdy5b0KP7W" },
 
 
- "Uruguay" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbMJJi3wgRbAy" , "playlist_id": "37i9dQZEVXbMJJi3wgRbAy" },
+ "Uruguay" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbMJJi3wgRbAy" , "playlist_id": "37i9dQZEVXbMJJi3wgRbAy" }
 
 },
 
@@ -195,9 +195,11 @@
  "Canada" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbKj23U1GF4IR" , "playlist_id": "37i9dQZEVXbKj23U1GF4IR" },
 
 
- "United States" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbLRQDuF5jeBp" , "playlist_id": "37i9dQZEVXbLRQDuF5jeBp" },
+ "United States" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbLRQDuF5jeBp" , "playlist_id": "37i9dQZEVXbLRQDuF5jeBp" }
 
-"Africa" {
+},
+
+"Africa" : {
 
  "Algeria" : { "url" : "https://open.spotify.com/user/spotifylovesfootball/playlist/4SOGictnevaN4DTbR1k42K" , "playlist_id": "4SOGictnevaN4DTbR1k42K" },
 
@@ -211,23 +213,48 @@
  "South Africa" : { "url" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DWWW9iyuOPGds" , "playlist_id": "37i9dQZF1DWWW9iyuOPGds" },
 
 
- "Tunisia" : { "url" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX9TaUKtmYQ2X" , "playlist_id": "37i9dQZF1DX9TaUKtmYQ2X" },
+ "Tunisia" : { "url" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX9TaUKtmYQ2X" , "playlist_id": "37i9dQZF1DX9TaUKtmYQ2X" }
 
 },
 
-"Oceania" {
+"Oceania" : {
 
  "Australia" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbJPcfkRz0wJ0" , "playlist_id": "37i9dQZEVXbJPcfkRz0wJ0" },
 
 
- "New Zealand" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbM8SIrkERIYl" , "playlist_id": "37i9dQZEVXbM8SIrkERIYl" },
+ "New Zealand" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbM8SIrkERIYl" , "playlist_id": "37i9dQZEVXbM8SIrkERIYl" }
 
-"Middle East" {
+},
 
- "Bahrain" : { "url" : "https://open.spotify.com/user/dgeizkipsrsk26i9krksl8wav/playlist/598uA4ClNJ0tGoAmrGTP2S" , "playlist_id": "598uA4ClNJ0tGoAmrGTP2S" },
+"Middle East" : {
 
-
-
-
+ "Jordan" : { "url" : "https://open.spotify.com/user/jdg46/playlist/3IbcOMVAV6PdEjPokNDskI" , "playlist_id": "3IbcOMVAV6PdEjPokNDskI" },
 
 
+ "Kuwait" : { "url" : "https://open.spotify.com/playlist/3N9tF3RtbBWx0pbs7cih4g" , "playlist_id": "3N9tF3RtbBWx0pbs7cih4g" },
+
+
+ "Lebanon" : { "url" : "https://open.spotify.com/user/dgeizkipsrsk26i9krksl8wav/playlist/6W21hwI3VoQZSaim5ieLCq" , "playlist_id": "6W21hwI3VoQZSaim5ieLCq" },
+
+
+ "Oman" : { "url" : "https://open.spotify.com/user/dgeizkipsrsk26i9krksl8wav" , "playlist_id": "dgeizkipsrsk26i9krksl8wav" },
+
+
+ "Palestine" : { "url" : "https://open.spotify.com/playlist/5EqbxP9txkYqaoIlJJElsS" , "playlist_id": "5EqbxP9txkYqaoIlJJElsS" },
+
+
+ "Qatar" : { "url" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DXaL8gtxi9eun" , "playlist_id": "37i9dQZF1DXaL8gtxi9eun" },
+
+
+ "Saudi Arabia" : { "url" : "https://open.spotify.com/playlist/5vTptlHUeFynGYqJonU19B" , "playlist_id": "5vTptlHUeFynGYqJonU19B" },
+
+
+ "United Arab Emirates" : { "url" : "https://open.spotify.com/user/babaroffa/playlist/2etClF2sUrCnynZrMf0BpM" , "playlist_id": "2etClF2sUrCnynZrMf0BpM" }
+
+}, 
+
+"Global" : {
+    "Global" : { "url": "https://open.spotify.com/playlist/37i9dQZEVXbMDoHDwVN2tF", "playlist_id": "37i9dQZEVXbMDoHDwVN2tF" }
+}
+
+}

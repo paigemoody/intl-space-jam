@@ -32,9 +32,23 @@ def get_current_lng_lat():
 
     latitude = current_data['iss_position']['latitude']
 
-    longitude = current_data['iss_position']['latitude']
+    longitude = current_data['iss_position']['longitude']
 
-    return { timestamp : [ longitude, latitude ] }
+    return { "timestamp": timestamp,  "coords" : [ float(longitude), float(latitude) ] }
+
+
+def get_playlist_id_from_country_name(country_name):
+
+    """Given country name return playlist id"""
+
+    # look for country name in json
+
+    with open('data/spotify_country_playlist_ids.json') as country_data:
+        country_data = json.load(country_data)
+
+        print(country_data)
+
+    return country_name
 
 
 def get_spotify_data(playlist_id):
@@ -42,10 +56,6 @@ def get_spotify_data(playlist_id):
     top_playlist_id = playlist_id
     
     results = spotify.search(q='playlist:' + top_playlist_id, type='playlist')
-
-    # print("results", results)
-
-    # owner_id= results['playlists']['items'][0]['owner']['id']
 
     owner_id = "spotifycharts"
 
@@ -64,13 +74,37 @@ def get_spotify_data(playlist_id):
 
     return( { top_song_name : artists_list } )
 
-print("Argentina:", get_spotify_data('37i9dQZEVXbMMy2roB9myp'))
 
-print("Egypt:", get_spotify_data('37i9dQZF1DX50MDbDwt4w8'))
+def get_country_from_coords(lng_lat_list):
+    """Given [long, lat], get country."""
 
-print("Tunisia:", get_spotify_data('37i9dQZF1DX9TaUKtmYQ2X'))
+    print(lng_lat_list)
 
-print("Bahrain:", get_spotify_data('598uA4ClNJ0tGoAmrGTP2S'))
+    return lng_lat_list
+
+
+
+######------TEST---------####
+
+# lng_lat_list = get_current_lng_lat()
+
+# get_country_from_coords(lng_lat_list)
+
+print(get_playlist_id_from_country_name("Thailand"))
+
+
+# print("Argentina:", get_spotify_data('37i9dQZEVXbMMy2roB9myp'))
+
+# print("Egypt:", get_spotify_data('37i9dQZF1DX50MDbDwt4w8'))
+
+# print("Tunisia:", get_spotify_data('37i9dQZF1DX9TaUKtmYQ2X'))
+
+# print("Bahrain:", get_spotify_data('598uA4ClNJ0tGoAmrGTP2S'))
+
+# print("Indonesia:", get_spotify_data('37i9dQZEVXbObFQZ3JLcXt'))
+
+# print("Global:", get_spotify_data('37i9dQZEVXbMDoHDwVN2tF'))
+
 
 
 

@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <link href='https://fonts.googleapis.com/css?family=Didact Gothic' rel='stylesheet'>
+<!--   <link rel="shortcut icon" href="{{ url_for('static', filename='nav.png') }}"> -->
+  <meta charset='utf-8' />
+  <title>INTL Space Jam</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+  
+  <style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+  </style>
+
+  <title> INTL Space Jam </title>
+  
+</head>
+
+<body>
+
+  <div class="wrapper">
+
+  INTL Space Jam
+
+  <div id='map'></div>
+
+  <script type="text/javascript">
+    
+    mapboxgl.accessToken = 'pk.eyJ1IjoicGFpZ2VlbW9vZHkiLCJhIjoiY2owbDcyejhvMDJwNzJ5cDR0YXE1aG10MCJ9.a-JLnrmMPSJNwOGQdloTDA';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/paigeemoody/cjxjikyc22tx41cqkougok2rk',
+      center: [-96, 37.8],
+      zoom: 0
+    });
+
+    const issLocationAPI = 'http://api.open-notify.org/iss-now.json'
+
+    // initialize current location data 
+    let currentLat = null;
+    let currentLng = null;
+
+    let currentCountry = null;
+
+    map.on('load', function() {
+
+      $.getJSON(issLocationAPI, function(data) {
+        
+          currentLat = data.iss_position.latitude
+          currentLng = data.iss_position.longitude
+
+          console.log("lng, lat:",currentLng,currentLat)
+      
+          let point  = {
+            "type": "FeatureCollection",
+            "features": [
+              {
+              "type": "Feature",
+              "properties": {},
+              "geometry": {
+                  "type": "Point",
+                  "coordinates": [currentLng,currentLat]}
+                }
+              ]
+          }
+
+          map.addSource('point', {
+              "type": "geojson",
+              "data": point
+          });
+
+          map.addLayer({
+              "id": "point",
+              "source": "point",
+              "type": "symbol",
+              "layout": {
+                  'visibility': 'visible',
+                  "icon-image": 'marker-11', 
+                  "icon-allow-overlap": true,
+                  "icon-ignore-placement": true,
+                  "icon-size": 3,
+                  "icon-anchor" : "bottom"
+              }
+          });
+
+          let issCoutry= `https://api.mapbox.com/geocoding/v5/mapbox.places/${currentLng},${currentLat}.json?types=country&access_token=${mapboxgl.accessToken}`
+
+          $.getJSON(issCoutry, function(data) {
+            currentCountry = data.features[0].place_name
+
+            console.log(currentCountry)
+          })
+
+          
+      });
+
+
+
+      
+
+    })
+
+
+
+  </script>
+
+
+      
+
+
+  </div>
+
+
+</body>
+
+</html>
