@@ -7,6 +7,7 @@ import os
 import sys
 from spotipy.oauth2 import SpotifyClientCredentials
 
+# from shapely.geometry import Polygon, Point, MultiPloygon
 
 SPOTIFY_CLIENT_ID= os.environ['spotify_client_id']
 SPOTIFY_CLIENT_SECRET = os.environ['spotify_client_secret']
@@ -41,14 +42,17 @@ def get_playlist_id_from_country_name(country_name):
 
     """Given country name return playlist id"""
 
-    # look for country name in json
-
     with open('data/spotify_country_playlist_ids.json') as country_data:
         country_data = json.load(country_data)
 
-        print(country_data)
+        # if country does not have a spotify playlist return global top 50 playlist id
+        if country_name not in country_data:
 
-    return country_name
+          return { 'country' : 'Global', 'playlist_id' : country_data['Global']['playlist_id']}
+
+    return { 'country' : country_name, 
+             'playlist_id' : country_data[country_name]['playlist_id'],
+             'playlist_url' : country_data[country_name]['url']}
 
 
 def get_spotify_data(playlist_id):
@@ -72,40 +76,22 @@ def get_spotify_data(playlist_id):
     for artist in artists_data:
         artists_list.append(artist['name'])
 
-    return( { top_song_name : artists_list } )
+    return( { 'song': top_song_name, 'artists' : artists_list } )
 
 
-def get_country_from_coords(lng_lat_list):
+def get_song_from_country(country_name):
     """Given [long, lat], get country."""
 
-    print(lng_lat_list)
+    playlist_data = get_playlist_id_from_country_name(country_name)
 
-    return lng_lat_list
+    playlist_id = playlist_data['playlist_id']
 
+    top_song_data = get_spotify_data(playlist_id)
 
+    playlist_data['song'] = top_song_data['song']
+    playlist_data['artists'] = top_song_data['artists']
 
-######------TEST---------####
-
-# lng_lat_list = get_current_lng_lat()
-
-# get_country_from_coords(lng_lat_list)
-
-print(get_playlist_id_from_country_name("Thailand"))
-
-
-# print("Argentina:", get_spotify_data('37i9dQZEVXbMMy2roB9myp'))
-
-# print("Egypt:", get_spotify_data('37i9dQZF1DX50MDbDwt4w8'))
-
-# print("Tunisia:", get_spotify_data('37i9dQZF1DX9TaUKtmYQ2X'))
-
-# print("Bahrain:", get_spotify_data('598uA4ClNJ0tGoAmrGTP2S'))
-
-# print("Indonesia:", get_spotify_data('37i9dQZEVXbObFQZ3JLcXt'))
-
-# print("Global:", get_spotify_data('37i9dQZEVXbMDoHDwVN2tF'))
-
-
+    return playlist_data
 
 
 

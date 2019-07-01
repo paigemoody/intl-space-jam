@@ -182,6 +182,7 @@
 
  "Uruguay" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbMJJi3wgRbAy" , "playlist_id": "37i9dQZEVXbMJJi3wgRbAy" },
 
+ 
  "Canada" : { "url" : "https://open.spotify.com/user/spotifycharts/playlist/37i9dQZEVXbKj23U1GF4IR" , "playlist_id": "37i9dQZEVXbKj23U1GF4IR" },
 
 
@@ -231,5 +232,5 @@
 
  "United Arab Emirates" : { "url" : "https://open.spotify.com/user/babaroffa/playlist/2etClF2sUrCnynZrMf0BpM" , "playlist_id": "2etClF2sUrCnynZrMf0BpM" },
 
-"Global" : { "url": "https://open.spotify.com/playlist/37i9dQZEVXbMDoHDwVN2tF", "playlist_id": "37i9dQZEVXbMDoHDwVN2tF" }
+ "Global" : { "url": "https://open.spotify.com/playlist/37i9dQZEVXbMDoHDwVN2tF", "playlist_id": "37i9dQZEVXbMDoHDwVN2tF" }
 }

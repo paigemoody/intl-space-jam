@@ -15,10 +15,15 @@
   
   <style>
   body { margin:0; padding:0; }
-  #map { position:absolute; top:0; bottom:0; width:100%; }
+  #map {  position:absolute; 
+          top:0; 
+          bottom:0; 
+          width:100%; 
+          z-index: -1;
+        }
   </style>
 
-  <title> INTL Space Jam </title>
+  <title> Int'l Space Jam </title>
   
 </head>
 
@@ -26,7 +31,7 @@
 
   <div class="wrapper">
 
-  INTL Space Jam
+  <iframe id="player" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" ></iframe>
 
   <div id='map'></div>
 
@@ -48,7 +53,14 @@
 
     let currentCountry = null;
 
-    map.on('load', function() {
+    let topSong = null;
+
+    // function to get current coordinates, current country and current top song
+    function addData(){
+
+      map.loadImage('/static/style/cat.png', function(error, image) {
+              map.addImage('person', image)
+        });
 
       $.getJSON(issLocationAPI, function(data) {
         
@@ -56,6 +68,8 @@
           currentLng = data.iss_position.longitude
 
           console.log("lng, lat:",currentLng,currentLat)
+
+          
       
           let point  = {
             "type": "FeatureCollection",
@@ -68,7 +82,7 @@
                   "coordinates": [currentLng,currentLat]}
                 }
               ]
-          }
+          };
 
           map.addSource('point', {
               "type": "geojson",
@@ -81,31 +95,65 @@
               "type": "symbol",
               "layout": {
                   'visibility': 'visible',
-                  "icon-image": 'marker-11', 
+                  "icon-image": 'person', 
                   "icon-allow-overlap": true,
                   "icon-ignore-placement": true,
-                  "icon-size": 3,
+                  "icon-size": .3,
                   "icon-anchor" : "bottom"
               }
           });
 
-          let issCoutry= `https://api.mapbox.com/geocoding/v5/mapbox.places/${currentLng},${currentLat}.json?types=country&access_token=${mapboxgl.accessToken}`
+          let issCountry= `https://api.mapbox.com/geocoding/v5/mapbox.places/${currentLng},${currentLat}.json?types=country&access_token=${mapboxgl.accessToken}`;
 
-          $.getJSON(issCoutry, function(data) {
-            currentCountry = data.features[0].place_name
+          $.getJSON(issCountry, function(data) {
 
-            console.log(currentCountry)
-          })
+            // console.log(data)
 
-          
+            if (data.features.length > 0){
+
+              currentCountry = data.features[0].place_name
+
+            } else {
+
+              currentCountry = 'Global'
+            }
+
+            // get top song data from server 
+            let topSong = `/top_song/${currentCountry}`;
+
+             $.getJSON(topSong, function(data) {
+
+                let playlistId = data['playlist_id']
+
+                $('#player').attr("src", `https://open.spotify.com/embed/playlist/${playlistId}`);
+
+             })
+    
+          });
+
+        
       });
 
+    }
+
+    //  load location on map when 
+    map.on('load', function() { addData() })
 
 
-      
 
-    })
 
+    function updateData(){
+      // get new data
+
+      console.log("ready for update")      
+
+    }
+
+
+    // update data every five seconds
+    // setInterval(function(){ 
+    //      updateData()  
+    // }, 5000);
 
 
   </script>
