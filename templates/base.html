@@ -19,8 +19,9 @@
           top:0; 
           bottom:0; 
           width:100%; 
-          z-index: -1;
+          /*z-index: -1;*/
         }
+
   </style>
 
   <title> Int'l Space Jam </title>
@@ -29,140 +30,189 @@
 
 <body>
 
-  <div class="wrapper">
 
-  <iframe id="player" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media" ></iframe>
+  <!-- <div class="wrapper"> -->
 
-  <div id='map'></div>
-
-  <script type="text/javascript">
+    <div class="row">
     
-    mapboxgl.accessToken = 'pk.eyJ1IjoicGFpZ2VlbW9vZHkiLCJhIjoiY2owbDcyejhvMDJwNzJ5cDR0YXE1aG10MCJ9.a-JLnrmMPSJNwOGQdloTDA';
-    var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/paigeemoody/cjxjikyc22tx41cqkougok2rk',
-      center: [-96, 37.8],
-      zoom: 0
-    });
 
-    const issLocationAPI = 'http://api.open-notify.org/iss-now.json'
+      <div id="spotify-iframe-holder">
 
-    // initialize current location data 
-    let currentLat = null;
-    let currentLng = null;
+        <iframe id="player" src="" width="300" height="800" frameborder="0" allowtransparency="true" allow="encrypted-media" ></iframe>
+        
+      </div>
 
-    let currentCountry = null;
+      <div id="map-holder">
 
-    let topSong = null;
+        <div id='map'></div>
+        
+      </div>
 
-    // function to get current coordinates, current country and current top song
-    function addData(){
+      
 
-      map.loadImage('/static/style/cat.png', function(error, image) {
-              map.addImage('person', image)
+      <script type="text/javascript">
+        
+        mapboxgl.accessToken = 'pk.eyJ1IjoicGFpZ2VlbW9vZHkiLCJhIjoiY2owbDcyejhvMDJwNzJ5cDR0YXE1aG10MCJ9.a-JLnrmMPSJNwOGQdloTDA';
+        var map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/paigeemoody/cjxjrmbev3lr51conbo8fps1e',
+          center: [-96, 37.8],
+          zoom: 2
         });
 
-      $.getJSON(issLocationAPI, function(data) {
-        
-          currentLat = data.iss_position.latitude
-          currentLng = data.iss_position.longitude
+        const issLocationAPI = 'http://api.open-notify.org/iss-now.json'
 
-          console.log("lng, lat:",currentLng,currentLat)
+        // initialize current location data 
+        let currentLat = null;
+        let currentLng = null;
 
+        let currentCountry = null;
+
+        let topSong = null;
+
+        // function to get current coordinates, current country and current top song
+        function addData(){
+
+          map.loadImage('/static/style/cat.png', function(error, image) {
+                  map.addImage('person', image)
+          });
+
+          $.getJSON(issLocationAPI, function(data) {
+            
+              currentLat = data.iss_position.latitude
+              currentLng = data.iss_position.longitude
+
+              console.log("lng, lat:",currentLng,currentLat)
+
+
+              map.flyTo({center: [currentLng, currentLat]});
+              
           
-      
-          let point  = {
-            "type": "FeatureCollection",
-            "features": [
-              {
-              "type": "Feature",
-              "properties": {},
-              "geometry": {
-                  "type": "Point",
-                  "coordinates": [currentLng,currentLat]}
+              let point  = {
+                "type": "FeatureCollection",
+                "features": [
+                  {
+                  "type": "Feature",
+                  "properties": {},
+                  "geometry": {
+                      "type": "Point",
+                      "coordinates": [currentLng,currentLat]}
+                    }
+                  ]
+              };
+
+              map.addSource('point', {
+                  "type": "geojson",
+                  "data": point
+              });
+
+              map.addLayer({
+                  "id": "point",
+                  "source": "point",
+                  "type": "symbol",
+                  "layout": {
+                      'visibility': 'visible',
+                      "icon-image": 'person', 
+                      "icon-allow-overlap": true,
+                      "icon-ignore-placement": true,
+                      "icon-size": .3,
+                      "icon-anchor" : "bottom"
+                  }
+              });
+
+
+
+             // add line to collect path
+
+             map.addLayer({
+
+              "id": "route",
+              "type": "line",
+              "source": {
+                "type": "geojson",
+                "data": {
+                  "type": "Feature",
+                  "properties": {},
+                  "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                          [currentLng,currentLat],
+                          [-73.985126, 40.708799]
+                        ]
+                      }
+                    }
+                },
+
+                "layout": {
+                  "line-join": "round",
+                  "line-cap": "round"
+                },
+                "paint": {
+                  "line-color": "#888",
+                  "line-width": 8
                 }
-              ]
-          };
+              });
 
-          map.addSource('point', {
-              "type": "geojson",
-              "data": point
-          });
+              let issCountry= `https://api.mapbox.com/geocoding/v5/mapbox.places/${currentLng},${currentLat}.json?types=country&access_token=${mapboxgl.accessToken}`;
 
-          map.addLayer({
-              "id": "point",
-              "source": "point",
-              "type": "symbol",
-              "layout": {
-                  'visibility': 'visible',
-                  "icon-image": 'person', 
-                  "icon-allow-overlap": true,
-                  "icon-ignore-placement": true,
-                  "icon-size": .3,
-                  "icon-anchor" : "bottom"
-              }
-          });
+              $.getJSON(issCountry, function(data) {
 
-          let issCountry= `https://api.mapbox.com/geocoding/v5/mapbox.places/${currentLng},${currentLat}.json?types=country&access_token=${mapboxgl.accessToken}`;
+                // console.log(data)
 
-          $.getJSON(issCountry, function(data) {
+                if (data.features.length > 0){
 
-            // console.log(data)
+                  currentCountry = data.features[0].place_name
 
-            if (data.features.length > 0){
+                } else {
 
-              currentCountry = data.features[0].place_name
+                  currentCountry = 'Global'
+                }
 
-            } else {
 
-              currentCountry = 'Global'
-            }
+                console.log(currentCountry)
+                // get top song data from server 
+                let topSong = `/top_song/${currentCountry}`;
 
-            // get top song data from server 
-            let topSong = `/top_song/${currentCountry}`;
+                 $.getJSON(topSong, function(data) {
 
-             $.getJSON(topSong, function(data) {
+                    let playlistId = data['playlist_id']
 
-                let playlistId = data['playlist_id']
+                    $('#player').attr("src", `https://open.spotify.com/embed/playlist/${playlistId}`);
 
-                $('#player').attr("src", `https://open.spotify.com/embed/playlist/${playlistId}`);
-
-             })
-    
-          });
-
+                 })
         
-      });
+              });
 
-    }
+            
+          });
 
-    //  load location on map when 
-    map.on('load', function() { addData() })
+        }
 
-
-
-
-    function updateData(){
-      // get new data
-
-      console.log("ready for update")      
-
-    }
+        //  load location on map when 
+        map.on('load', function() { addData() })
 
 
-    // update data every five seconds
-    // setInterval(function(){ 
-    //      updateData()  
-    // }, 5000);
+        function updateData(){
+
+          // change point coordinates
+
+          // add new coordinates to the route coordinates
+
+          console.log("ready for update")      
+
+        }
 
 
-  </script>
+        // update data every five seconds
+        setInterval(function(){ 
+             updateData()  
+        }, 5000);
 
+      </script> 
 
-      
+    </div>
 
-
-  </div>
+  <!-- </div> -->
 
 
 </body>
