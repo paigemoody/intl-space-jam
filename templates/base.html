@@ -30,36 +30,22 @@
 
 <body>
 
-
-  <!-- <div class="wrapper"> -->
-
     <div class="row">
-    
-
       <div id="spotify-iframe-holder">
-
         <iframe id="player" src="" width="300" height="800" frameborder="0" allowtransparency="true" allow="encrypted-media" ></iframe>
-        
       </div>
-
       <div id="map-holder">
-
         <div id='map'></div>
-        
       </div>
-
-      
-
       <script type="text/javascript">
-        
+    
         mapboxgl.accessToken = 'pk.eyJ1IjoicGFpZ2VlbW9vZHkiLCJhIjoiY2owbDcyejhvMDJwNzJ5cDR0YXE1aG10MCJ9.a-JLnrmMPSJNwOGQdloTDA';
         var map = new mapboxgl.Map({
           container: 'map',
           style: 'mapbox://styles/paigeemoody/cjxjrmbev3lr51conbo8fps1e',
-          center: [-96, 37.8],
+          center: [-41.373117, 34.651883],
           zoom: 2
         });
-
         const issLocationAPI = 'http://api.open-notify.org/iss-now.json'
 
         // initialize current location data 
@@ -70,25 +56,35 @@
 
         let topSong = null;
 
-        // function to get current coordinates, current country and current top song
-        function addData(){
+        let playlistId = null;
 
+        // create point geojson
+        let point  = {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": []}
+                  }
+                ]
+          };
+
+        // load map
+        map.on('load', function() { 
+
+          // load image for point marker
           map.loadImage('/static/style/cat.png', function(error, image) {
                   map.addImage('person', image)
-          });
+            });
 
-          $.getJSON(issLocationAPI, function(data) {
-            
-              currentLat = data.iss_position.latitude
-              currentLng = data.iss_position.longitude
-
-              console.log("lng, lat:",currentLng,currentLat)
+          // get current issLocation
 
 
-              map.flyTo({center: [currentLng, currentLat]});
-              
-          
-              let point  = {
+          // // create point geojson
+          let point  = {
                 "type": "FeatureCollection",
                 "features": [
                   {
@@ -119,93 +115,185 @@
                       "icon-anchor" : "bottom"
                   }
               });
-
-
-
-             // add line to collect path
-
-             map.addLayer({
-
-              "id": "route",
-              "type": "line",
-              "source": {
-                "type": "geojson",
-                "data": {
-                  "type": "Feature",
-                  "properties": {},
-                  "geometry": {
-                    "type": "LineString",
-                    "coordinates": [
-                          [currentLng,currentLat],
-                          [-73.985126, 40.708799]
-                        ]
-                      }
-                    }
-                },
-
-                "layout": {
-                  "line-join": "round",
-                  "line-cap": "round"
-                },
-                "paint": {
-                  "line-color": "#888",
-                  "line-width": 8
-                }
-              });
-
-              let issCountry= `https://api.mapbox.com/geocoding/v5/mapbox.places/${currentLng},${currentLat}.json?types=country&access_token=${mapboxgl.accessToken}`;
-
-              $.getJSON(issCountry, function(data) {
-
-                // console.log(data)
-
-                if (data.features.length > 0){
-
-                  currentCountry = data.features[0].place_name
-
-                } else {
-
-                  currentCountry = 'Global'
-                }
-
-
-                console.log(currentCountry)
-                // get top song data from server 
-                let topSong = `/top_song/${currentCountry}`;
-
-                 $.getJSON(topSong, function(data) {
-
-                    let playlistId = data['playlist_id']
-
-                    $('#player').attr("src", `https://open.spotify.com/embed/playlist/${playlistId}`);
-
-                 })
-        
-              });
-
             
+            // addData() 
+            setCurrentLocation()
+            
+        })
+
+
+        function setCurrentLocation(){
+
+          $.getJSON(issLocationAPI, function(data) {
+            
+              currentLat = data.iss_position.latitude
+              currentLng = data.iss_position.longitude
+
+              console.log("lng, lat:",currentLng,currentLat)
+
+              point.features[0].geometry.coordinates = [currentLng, currentLat]
+
+              map.getSource('point').setData(point)
+
+              updatePlayer()
+        })
+
+        function updatePlayer(){
+          console.log('updatePlayer')
+
+          let issCountry= `https://api.mapbox.com/geocoding/v5/mapbox.places/${currentLng},${currentLat}.json?types=country&access_token=${mapboxgl.accessToken}`;
+
+          $.getJSON(issCountry, function(data) {
+            if (data.features.length > 0){
+              currentCountry = data.features[0].place_name
+            } else {
+              currentCountry = 'Global'
+            }
+
+          // get top song data from server 
+          let topSong = `/top_song/${currentCountry}`;
+
+         $.getJSON(topSong, function(data) {
+
+            // only update player if new playlis id
+
+            if (data['playlist_id'] != playlistId){
+
+              console.log(data['playlist_id'], playlistId)
+
+              playlistId = data['playlist_id']
+
+              $('#player').attr("src", `https://open.spotify.com/embed/playlist/${playlistId}`);
+            }
+         })
+    
           });
 
+        };
+
+        // function to get current coordinates, current country and current top song
+        function addData(){
+
+          // map.loadImage('/static/style/cat.png', function(error, image) {
+          //       map.addImage('person', image)
+          // });
+
+          // $.getJSON(issLocationAPI, function(data) {
+            
+          //     currentLat = data.iss_position.latitude
+          //     currentLng = data.iss_position.longitude
+
+          //     console.log("lng, lat:",currentLng,currentLat)
+
+
+          //     map.flyTo({center: [currentLng, currentLat]});
+              
+          
+              // let point  = {
+              //   "type": "FeatureCollection",
+              //   "features": [
+              //     {
+              //     "type": "Feature",
+              //     "properties": {},
+              //     "geometry": {
+              //         "type": "Point",
+              //         "coordinates": [currentLng,currentLat]}
+              //       }
+              //     ]
+              // };
+
+              // map.addSource('point', {
+              //     "type": "geojson",
+              //     "data": point
+              // });
+
+              // map.addLayer({
+              //     "id": "point",
+              //     "source": "point",
+              //     "type": "symbol",
+              //     "layout": {
+              //         'visibility': 'visible',
+              //         "icon-image": 'person', 
+              //         "icon-allow-overlap": true,
+              //         "icon-ignore-placement": true,
+              //         "icon-size": .3,
+              //         "icon-anchor" : "bottom"
+              //     }
+              // });
+
+             // add line to collect path
+             // map.addLayer({
+             //  "id": "route",
+             //  "type": "line",
+             //  "source": {
+             //    "type": "geojson",
+             //    "data": {
+             //      "type": "Feature",
+             //      "properties": {},
+             //      "geometry": {
+             //        "type": "LineString",
+             //        "coordinates": [
+             //              [currentLng,currentLat],
+             //              // [-73.985126, 40.708799]
+             //            ]
+             //          }
+             //        }
+             //    },
+
+             //    "layout": {
+             //      "line-join": "round",
+             //      "line-cap": "round"
+             //    },
+             //    "paint": {
+             //      "line-color": "#888",
+             //      "line-width": 8
+             //    }
+             //  });
+
+              // let issCountry= `https://api.mapbox.com/geocoding/v5/mapbox.places/${currentLng},${currentLat}.json?types=country&access_token=${mapboxgl.accessToken}`;
+
+              // $.getJSON(issCountry, function(data) {
+              //   if (data.features.length > 0){
+              //     currentCountry = data.features[0].place_name
+              //   } else {
+              //     currentCountry = 'Global'
+              //   }
+
+              //   // get top song data from server 
+              //   let topSong = `/top_song/${currentCountry}`;
+
+              //    $.getJSON(topSong, function(data) {
+
+              //       let playlistId = data['playlist_id']
+
+              //       $('#player').attr("src", `https://open.spotify.com/embed/playlist/${playlistId}`);
+
+              //    })
+        
+              // });
+
+            
+          };
+
         }
 
-        //  load location on map when 
-        map.on('load', function() { addData() })
 
 
-        function updateData(){
+        // function updateData(){
 
-          // change point coordinates
+        //   // change point coordinates
 
-          // add new coordinates to the route coordinates
+        //   // add new coordinates to the route coordinates
 
-          console.log("ready for update")      
+        //   console.log("ready for update")  
+        //   addData()    
 
-        }
-
-
+        // }
         // update data every five seconds
         setInterval(function(){ 
-             updateData()  
+             // updateData()  
+            setCurrentLocation()
+            // updatePlayer()
         }, 5000);
 
       </script> 
