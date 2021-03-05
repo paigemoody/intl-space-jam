@@ -1,7 +1,7 @@
 # intl-space-jam
 Get most popular songs in country under current ISS location.
 
-![readme screenshot](https://user-images.githubusercontent.com/25571355/76674095-ef0f8f80-6568-11ea-971c-6d6d7ce233fa.png)
+![readme screenshot](https://user-images.githubusercontent.com/25571355/110048637-395fc280-7d1e-11eb-8997-b003d2b41b33.png)
 
 ISS location updates every 5 seconds - sourced from http://api.open-notify.org/.
 
