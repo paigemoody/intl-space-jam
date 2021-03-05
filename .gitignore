@@ -1,2 +1,5 @@
 /env
 secrets.sh
+.DS_Store
+__pycache__/
+static/style/.DS_Store

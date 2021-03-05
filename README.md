@@ -9,6 +9,7 @@ Set-up
 
 1. Virtual environment
 ```
+python3 -m venv env
 source env/bin/activate
 
 ```
@@ -24,7 +25,7 @@ export flask_session_key='ABCD'
 
 3. Export your secrets
 ```
-$ source secrets.sh
+source secrets.sh
 ```
 
 4. Run app:

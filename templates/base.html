@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link href='https://fonts.googleapis.com/css?family=Didact Gothic' rel='stylesheet'>
-<!--   <link rel="shortcut icon" href="{{ url_for('static', filename='nav.png') }}"> -->
   <meta charset='utf-8' />
   <title>INTL Space Jam</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
@@ -18,8 +17,7 @@
   #map {  position:absolute; 
           top:0; 
           bottom:0; 
-          width:100%; 
-          /*z-index: -1;*/
+          width:100%;
         }
 
   </style>
@@ -43,8 +41,8 @@
         var map = new mapboxgl.Map({
           container: 'map',
           style: 'mapbox://styles/paigeemoody/cjxjrmbev3lr51conbo8fps1e',
-          center: [-41.373117, 34.651883],
-          zoom: 2
+          center: [0, 0],
+          zoom: 0
         });
         const issLocationAPI = 'http://api.open-notify.org/iss-now.json'
 
@@ -72,16 +70,29 @@
                 ]
           };
 
+        let path = {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                  "type": "Feature",
+                  "properties": {},
+                  "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                          [],
+                        ]
+                      }
+                    }
+                ]
+          };
+
         // load map
         map.on('load', function() { 
 
           // load image for point marker
-          map.loadImage('/static/style/cat.png', function(error, image) {
+          map.loadImage('/static/style/iss.png', function(error, image) {
                   map.addImage('person', image)
             });
-
-          // get current issLocation
-
 
           // // create point geojson
           let point  = {
@@ -102,6 +113,7 @@
                   "data": point
               });
 
+
               map.addLayer({
                   "id": "point",
                   "source": "point",
@@ -115,9 +127,51 @@
                       "icon-anchor" : "bottom"
                   }
               });
-            
-            // addData() 
+
+        let path = {
+              "type": "FeatureCollection",
+              "features": [
+                {
+                  "type": "Feature",
+                  "properties": {},
+                  "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                          [currentLng,currentLat],
+                        ]
+                      }
+                    }
+                ]
+          };
+
+          map.addSource('path', {
+                  "type": "geojson",
+                  "data": path
+              });
+            // add line to collect path
+             map.addLayer({
+              "id": "route",
+              "type": "line",
+              "source": "path",
+                "layout": {
+                  "line-join": "round",
+                  "line-cap": "round"
+                },
+                "paint": {
+                  "line-color": "#888",
+                  "line-width": 8
+                }
+              });
             setCurrentLocation()
+            var features = map.queryRenderedFeatures();
+
+            features.forEach(feature => {
+              console.log(feature.geometry.coordinates)
+            })
+            map.flyTo({
+              center: features[0].geometry.coordinates,
+              zoom: 2
+            });
             
         })
 
@@ -169,139 +223,32 @@
     
           });
 
-        };
-
-        // function to get current coordinates, current country and current top song
-        function addData(){
-
-          // map.loadImage('/static/style/cat.png', function(error, image) {
-          //       map.addImage('person', image)
-          // });
-
-          // $.getJSON(issLocationAPI, function(data) {
-            
-          //     currentLat = data.iss_position.latitude
-          //     currentLng = data.iss_position.longitude
-
-          //     console.log("lng, lat:",currentLng,currentLat)
-
-
-          //     map.flyTo({center: [currentLng, currentLat]});
-              
-          
-              // let point  = {
-              //   "type": "FeatureCollection",
-              //   "features": [
-              //     {
-              //     "type": "Feature",
-              //     "properties": {},
-              //     "geometry": {
-              //         "type": "Point",
-              //         "coordinates": [currentLng,currentLat]}
-              //       }
-              //     ]
-              // };
-
-              // map.addSource('point', {
-              //     "type": "geojson",
-              //     "data": point
-              // });
-
-              // map.addLayer({
-              //     "id": "point",
-              //     "source": "point",
-              //     "type": "symbol",
-              //     "layout": {
-              //         'visibility': 'visible',
-              //         "icon-image": 'person', 
-              //         "icon-allow-overlap": true,
-              //         "icon-ignore-placement": true,
-              //         "icon-size": .3,
-              //         "icon-anchor" : "bottom"
-              //     }
-              // });
-
-             // add line to collect path
-             // map.addLayer({
-             //  "id": "route",
-             //  "type": "line",
-             //  "source": {
-             //    "type": "geojson",
-             //    "data": {
-             //      "type": "Feature",
-             //      "properties": {},
-             //      "geometry": {
-             //        "type": "LineString",
-             //        "coordinates": [
-             //              [currentLng,currentLat],
-             //              // [-73.985126, 40.708799]
-             //            ]
-             //          }
-             //        }
-             //    },
-
-             //    "layout": {
-             //      "line-join": "round",
-             //      "line-cap": "round"
-             //    },
-             //    "paint": {
-             //      "line-color": "#888",
-             //      "line-width": 8
-             //    }
-             //  });
-
-              // let issCountry= `https://api.mapbox.com/geocoding/v5/mapbox.places/${currentLng},${currentLat}.json?types=country&access_token=${mapboxgl.accessToken}`;
-
-              // $.getJSON(issCountry, function(data) {
-              //   if (data.features.length > 0){
-              //     currentCountry = data.features[0].place_name
-              //   } else {
-              //     currentCountry = 'Global'
-              //   }
-
-              //   // get top song data from server 
-              //   let topSong = `/top_song/${currentCountry}`;
-
-              //    $.getJSON(topSong, function(data) {
-
-              //       let playlistId = data['playlist_id']
-
-              //       $('#player').attr("src", `https://open.spotify.com/embed/playlist/${playlistId}`);
-
-              //    })
-        
-              // });
-
-            
-          };
+        };  
 
         }
-
-
-
-        // function updateData(){
-
-        //   // change point coordinates
-
-        //   // add new coordinates to the route coordinates
-
-        //   console.log("ready for update")  
-        //   addData()    
-
-        // }
-        // update data every five seconds
+        // update data every interval (current 5 seconds)
         setInterval(function(){ 
-             // updateData()  
             setCurrentLocation()
-            // updatePlayer()
-        }, 5000);
+        }, 500);
+
+        // center map
+        setInterval(function(){ 
+          console.log("Focus map")
+            var features = map.queryRenderedFeatures();
+
+            features.forEach(feature => {
+              console.log(feature.geometry.coordinates)
+            })
+            map.flyTo({
+              center: features[0].geometry.coordinates,
+              zoom: 0
+            });
+        }, 50000);
+
 
       </script> 
 
     </div>
-
-  <!-- </div> -->
-
 
 </body>
 

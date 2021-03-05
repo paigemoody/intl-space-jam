@@ -23,6 +23,8 @@ def get_top_song(country_name):
 
     song_data = get_song_from_country(country_name)
 
+    print("country_name:", country_name)
+
     return jsonify(song_data)
 
 

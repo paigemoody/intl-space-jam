@@ -232,5 +232,10 @@
 
  "United Arab Emirates" : { "url" : "https://open.spotify.com/user/babaroffa/playlist/2etClF2sUrCnynZrMf0BpM" , "playlist_id": "2etClF2sUrCnynZrMf0BpM" },
 
- "Global" : { "url": "https://open.spotify.com/playlist/37i9dQZEVXbMDoHDwVN2tF", "playlist_id": "37i9dQZEVXbMDoHDwVN2tF" }
+ "Global" : { "url": "https://open.spotify.com/playlist/37i9dQZEVXbMDoHDwVN2tF", "playlist_id": "37i9dQZEVXbMDoHDwVN2tF" },
+
+ "Russia" : { "url": "https://open.spotify.com/playlist/3MxLHSEh0admoYDH0GaY21", "playlist_id": "3MxLHSEh0admoYDH0GaY21" },
+
+ "China" : { "url": "https://open.spotify.com/playlist/1HuLhcQu2aZ6VQePfObpuJ", "playlist_id": "1HuLhcQu2aZ6VQePfObpuJ" }
+
 }
