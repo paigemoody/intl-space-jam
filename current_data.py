@@ -7,8 +7,6 @@ import os
 import sys
 from spotipy.oauth2 import SpotifyClientCredentials
 
-# from shapely.geometry import Polygon, Point, MultiPloygon
-
 SPOTIFY_CLIENT_ID= os.environ['spotify_client_id']
 SPOTIFY_CLIENT_SECRET = os.environ['spotify_client_secret']
 
@@ -22,7 +20,6 @@ def get_current_lng_lat():
     Get dict of current time and [lng, lat] of the ISS as a dict
 
     { unix_time_stamp : [lng ,lat] }
-
     """
     
     current_data = requests.get("http://api.open-notify.org/iss-now.json")
