@@ -3,7 +3,7 @@ Get most popular songs in country under current ISS location.
 
 ![readme screenshot](https://user-images.githubusercontent.com/25571355/110048637-395fc280-7d1e-11eb-8997-b003d2b41b33.png)
 
-ISS location updates every 5 seconds - sourced from http://api.open-notify.org/.
+ISS location updates every 5 seconds (sourced from http://api.open-notify.org/).
 
 Set-up
 
